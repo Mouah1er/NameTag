@@ -1,0 +1,62 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.6.21'
+    id 'maven-publish'
+}
+
+group 'fr.twah2em'
+version '1.1-SNAPSHOT'
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = project.group
+            artifactId = "NameTag"
+            version = project.version
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url "https://maven.pkg.jetbrains.space/spigottools/p/spigot-tools/tools"
+            credentials {
+                username = property("spaceUsername")
+                password = property("spacePassword")
+            }
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+
+    maven {
+        url "https://maven.pkg.jetbrains.space/spigottools/p/spigot-tools/tools"
+        credentials {
+            username = spaceUsername
+            password = spacePassword
+        }
+    }
+
+    mavenLocal()
+}
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation "fr.twah2em:mc-reflection:1.4.1-SNAPSHOT"
+}
+
+libsDirName = "${property("libs-dir-name")}"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+tasks {
+    compileKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+}
