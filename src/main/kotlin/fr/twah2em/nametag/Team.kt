@@ -6,7 +6,7 @@ import org.bukkit.OfflinePlayer
 import java.lang.reflect.Constructor
 import java.util.*
 
-class Team(val name: String, prefix: String, suffix: String) {
+open class Team(val name: String, prefix: String, suffix: String) {
     private val packetPlayOutScoreboardTeamClass = NMSClass("PacketPlayOutScoreboardTeam")!!
     private val packetPlayOutScoreboardTeamConstructor: Constructor<*> =
         constructor(packetPlayOutScoreboardTeamClass, emptyArray())!!
@@ -35,7 +35,7 @@ class Team(val name: String, prefix: String, suffix: String) {
                 .forEach { sendPacket(it, createTeamPacket(2)) }
         }
 
-    private fun createTeamPacket(mode: Int): Any {
+    protected open fun createTeamPacket(mode: Int): Any {
         val packet = invokeConstructor(packetPlayOutScoreboardTeamConstructor)
 
         field(field(packetPlayOutScoreboardTeamClass, "a")!!, packet, name)
@@ -69,7 +69,7 @@ class Team(val name: String, prefix: String, suffix: String) {
         return packet
     }
 
-    private fun addPlayer(playerName: String): Any {
+    protected open fun addPlayer(playerName: String): Any {
         val packet = invokeConstructor(packetPlayOutScoreboardTeamConstructor)
 
         field(field(packetPlayOutScoreboardTeamClass, "a")!!, packet, name)
@@ -87,7 +87,7 @@ class Team(val name: String, prefix: String, suffix: String) {
         return packet
     }
 
-    private fun removePlayer(playerName: String): Any {
+    protected open fun removePlayer(playerName: String): Any {
         val packet = invokeConstructor(packetPlayOutScoreboardTeamConstructor)
 
         field(field(packetPlayOutScoreboardTeamClass, "a")!!, packet, name)
@@ -105,7 +105,7 @@ class Team(val name: String, prefix: String, suffix: String) {
         return packet
     }
 
-    fun addPlayer(player: OfflinePlayer) {
+    open fun addPlayer(player: OfflinePlayer) {
         allies.add(player.uniqueId)
 
         if (player.isOnline) {
@@ -120,7 +120,7 @@ class Team(val name: String, prefix: String, suffix: String) {
         }
     }
 
-    fun removePlayer(player: OfflinePlayer) {
+    open fun removePlayer(player: OfflinePlayer) {
         allies.remove(player.uniqueId)
 
         if (fieldsRequireString) {
@@ -137,7 +137,7 @@ class Team(val name: String, prefix: String, suffix: String) {
         }
     }
 
-    fun addReceiver(player: OfflinePlayer) {
+    open fun addReceiver(player: OfflinePlayer) {
         receivers.add(player.uniqueId)
 
         if (player.isOnline) {
@@ -157,7 +157,7 @@ class Team(val name: String, prefix: String, suffix: String) {
         }
     }
 
-    fun removeReceiver(player: OfflinePlayer) {
+    open fun removeReceiver(player: OfflinePlayer) {
         receivers.remove(player.uniqueId)
 
         if (player.isOnline) {
@@ -168,17 +168,17 @@ class Team(val name: String, prefix: String, suffix: String) {
         }
     }
 
-    fun destroy() {
+    open fun destroy() {
         receivers.forEach {
             removeReceiver(Bukkit.getOfflinePlayer(it))
         }
     }
 
-    fun isReceiver(player: OfflinePlayer): Boolean {
+    open fun isReceiver(player: OfflinePlayer): Boolean {
         return receivers.stream().anyMatch { it.equals(player.uniqueId) }
     }
 
-    fun isAlly(player: OfflinePlayer): Boolean {
+    open fun isAlly(player: OfflinePlayer): Boolean {
         return allies.stream().anyMatch { it.equals(player.uniqueId) }
     }
 

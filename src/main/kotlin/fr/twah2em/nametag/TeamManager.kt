@@ -2,24 +2,18 @@ package fr.twah2em.nametag
 
 import org.bukkit.OfflinePlayer
 
-class TeamManager {
+open class TeamManager {
     private val teams = mutableSetOf<Team>()
 
-    private fun removeAllTeams() {
-        teams.forEach() { it.destroy() }
-
-        teams.clear()
-    }
-
-    fun createTeam(name: String): Team {
+    open fun createTeam(name: String): Team {
         return createTeam(name, "")
     }
 
-    fun createTeam(name: String, prefix: String): Team {
+    open fun createTeam(name: String, prefix: String): Team {
         return createTeam(name, prefix, "")
     }
 
-    fun createTeam(name: String, prefix: String, suffix: String): Team {
+    open fun createTeam(name: String, prefix: String, suffix: String): Team {
         if (teamByName(name) != null) {
             throw IllegalArgumentException("Team with name $name already exists")
         }
@@ -31,21 +25,27 @@ class TeamManager {
         return team
     }
 
-    fun removeTeam(team: Team) {
+    open fun removeTeam(team: Team) {
         team.destroy()
 
         teams.remove(team)
     }
 
-    fun removeTeamByName(name: String) {
+    open fun removeTeamByName(name: String) {
         removeTeam(teamByName(name)!!)
     }
 
-    fun teamByPlayer(player: OfflinePlayer): Team? {
+    open fun removeAllTeams() {
+        teams.forEach() { it.destroy() }
+
+        teams.clear()
+    }
+
+    open fun teamByPlayer(player: OfflinePlayer): Team? {
         return teams.find { it.isAlly(player) }
     }
 
-    fun teamByName(name: String): Team? {
+    open fun teamByName(name: String): Team? {
         return teams.find { it.name == name }
     }
 }

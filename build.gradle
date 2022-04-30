@@ -10,7 +10,7 @@ publishing {
     publications {
         maven(MavenPublication) {
             groupId = project.group
-            artifactId = "NameTag"
+            artifactId = "Team"
             version = project.version
             from components.java
         }
