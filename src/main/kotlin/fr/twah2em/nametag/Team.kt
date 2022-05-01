@@ -19,7 +19,7 @@ open class Team(val name: String, prefix: String, suffix: String) {
     private val receivers = mutableSetOf<UUID>()
     private val allies = mutableSetOf<UUID>()
 
-    private var prefix: String = prefix
+    open var prefix: String = prefix
         set(value) {
             field = value
             receivers
@@ -27,7 +27,7 @@ open class Team(val name: String, prefix: String, suffix: String) {
                 .forEach { sendPacket(it, createTeamPacket(2)) }
         }
 
-    private var suffix: String = suffix
+    open var suffix: String = suffix
         set(value) {
             field = value
             receivers
