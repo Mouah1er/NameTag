@@ -6,6 +6,10 @@ import org.bukkit.OfflinePlayer
 import java.lang.reflect.Constructor
 import java.util.*
 
+/**
+ * Default Team class. If you want to use this class for a custom implementation, you MUST have a constructor with as parameters the
+ * team name, its prefix and finally its suffix.
+ */
 open class Team(val name: String, prefix: String, suffix: String) {
     private val packetPlayOutScoreboardTeamClass = NMSClass("PacketPlayOutScoreboardTeam")!!
     private val packetPlayOutScoreboardTeamConstructor: Constructor<*> =

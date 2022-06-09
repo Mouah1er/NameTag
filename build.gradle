@@ -45,6 +45,7 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
     implementation "fr.twah2em:mc-reflection:1.4.1-SNAPSHOT"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.21"
 }
 
 libsDirName = "${property("libs-dir-name")}"

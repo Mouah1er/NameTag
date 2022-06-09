@@ -1,24 +1,38 @@
 package fr.twah2em.nametag
 
+import fr.twah2em.mcreflection.constructor
+import fr.twah2em.mcreflection.invokeConstructor
 import org.bukkit.OfflinePlayer
+import java.lang.reflect.Constructor
 
-open class TeamManager {
-    private val teams = mutableSetOf<Team>()
+open class TeamManager<T : Team>(private val teamClass: Class<T>) {
+    private val teams = mutableSetOf<T>()
 
-    open fun createTeam(name: String): Team {
+    open fun createTeam(name: String): T {
         return createTeam(name, "")
     }
 
-    open fun createTeam(name: String, prefix: String): Team {
+    open fun createTeam(name: String, prefix: String): T {
         return createTeam(name, prefix, "")
     }
 
-    open fun createTeam(name: String, prefix: String, suffix: String): Team {
+    open fun createTeam(name: String, prefix: String, suffix: String): T {
         if (teamByName(name) != null) {
             throw IllegalArgumentException("Team with name $name already exists")
         }
 
-        val team = Team(name, prefix, suffix)
+        val team = invokeConstructor(
+            constructor(
+                teamClass, arrayOf(
+                    String::class.java,
+                    String::class.java,
+                    String::class.java
+                )
+            ) as Constructor<T>,
+            name,
+            prefix,
+            suffix
+        )
 
         teams.add(team)
 
