@@ -44,7 +44,7 @@ dependencies {
     compileOnly 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
-    implementation "fr.twah2em:mc-reflection:1.4.1-SNAPSHOT"
+    implementation "fr.twah2em:mc-reflection:1.5.2-SNAPSHOT"
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.21"
 }
 

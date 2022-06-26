@@ -23,11 +23,10 @@ open class TeamManager<T : Team>(private val teamClass: Class<T>) {
 
         val team = invokeConstructor(
             constructor(
-                teamClass, arrayOf(
-                    String::class.java,
-                    String::class.java,
-                    String::class.java
-                )
+                teamClass,
+                String::class.java,
+                String::class.java,
+                String::class.java
             ) as Constructor<T>,
             name,
             prefix,
